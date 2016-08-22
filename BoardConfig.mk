@@ -16,6 +16,8 @@
 
 -include device/bq/msm8916-common/BoardConfigCommon.mk
 
+DEVICE_PATH := device/bq/vegetalte
+
 # Platform
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 
@@ -32,8 +34,11 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bq/vegetalte/bluetooth
 # Filesystem
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12444651356 # (BOARD_USERDATAIMAGE_PARTITION_SIZE - 16384 for crypto footer)
 
+# Power
+TARGET_POWERHAL_HEADER_PATH := $(DEVICE_PATH)/power
+
 # Properties
-TARGET_SYSTEM_PROP += device/bq/vegetalte/system.prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # SELinux
 BOARD_SEPOLICY_DIRS += device/bq/vegetalte/sepolicy
