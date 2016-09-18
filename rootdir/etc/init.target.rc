@@ -1,4 +1,5 @@
 # Copyright (c) 2009-2012, 2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2016 The CyanogenMod Project
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,7 +29,28 @@
 on fs
     write /sys/class/android_usb/android0/iProduct Aquaris_E5
 
+    # Switch to interactive and let PowerHAL configure it
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/boostpulse
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/target_loads
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+
 on post-fs-data
+    # AK09912 calibration file directory
+    mkdir /data/misc/akmd 0770 system compass
 
     # Tap To Wake
     chown root system /proc/gesture_open
@@ -40,6 +62,16 @@ service config-zram /system/bin/sh /system/etc/init.qcom.zram.sh
    disabled
    oneshot
 
-on property:sys.boot_completed=1
-    start config-zram
+    # HMP Task packing settings for 8916
+    write /proc/sys/kernel/sched_small_task 50
+
+    # enable thermal core_control 
+    write /sys/module/msm_thermal/core_control/enabled 1
+
+    start batt_health
+
+    write /sys/class/devfreq/1c00000.qcom,kgsl-3d0/governor "msm-adreno-tz"
+    write /sys/class/devfreq/qcom,cpubw.30/governor "cpufreq"
+
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
 
