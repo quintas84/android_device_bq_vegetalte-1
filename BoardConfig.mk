@@ -34,6 +34,9 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/bq/vegetalte/bluetooth
 # Filesystem
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12444651356 # (BOARD_USERDATAIMAGE_PARTITION_SIZE - 16384 for crypto footer)
 
+#enabling IMS for this target
+TARGET_USES_IMS := true
+
 # Power
 TARGET_POWERHAL_HEADER_PATH := $(DEVICE_PATH)/power
 
