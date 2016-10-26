@@ -26,7 +26,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-on boot
+on fs
     write /sys/class/android_usb/android0/iProduct Aquaris_E5
 
     # Switch to interactive and let PowerHAL configure it
