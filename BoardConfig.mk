@@ -25,6 +25,11 @@ TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 TARGET_KERNEL_SOURCE := kernel/bq/msm8939
 TARGET_KERNEL_CONFIG := vegetalte_defconfig
 
+#kernel tools
+KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
+KERNEL_TOOLCHAIN := "$(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-eabi-4.8/bin/"
+TARGET_RELEASETOOLS_EXTENSIONS := device/qcom/common
+
 # Assert
 TARGET_OTA_ASSERT_DEVICE := vegetalte,Aquaris_E5
 
