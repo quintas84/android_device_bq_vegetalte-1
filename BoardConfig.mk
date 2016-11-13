@@ -20,7 +20,7 @@
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/bq/common
+TARGET_KERNEL_SOURCE := kernel/bq/msm8939
 TARGET_KERNEL_CONFIG := cyanogenmod_vegetalte_defconfig
 
 # Assert
