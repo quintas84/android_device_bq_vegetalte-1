@@ -7,3 +7,12 @@ ro.min_freq_0=800000
 
 # Telephony
 persist.data.target=dpm1
+
+# Audio
+voice.playback.conc.disabled=true
+voice.record.conc.disabled=true
+voice.voip.conc.disabled=true
+
+# Perfd
+ro.min_freq_0=960000
+ro.min_freq_4=800000

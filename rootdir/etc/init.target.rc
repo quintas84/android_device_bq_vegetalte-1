@@ -27,34 +27,33 @@
 #
 
 on fs
-    write /sys/class/android_usb/android0/iProduct Aquaris_E5
-
-    # Switch to interactive and let PowerHAL configure it
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/boostpulse
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
-    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/target_loads
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    write /sys/class/android_usb/android0/iProduct Aquaris_M5
 
 on post-fs-data
-    # AK09912 calibration file directory
-    mkdir /data/misc/akmd 0770 system compass
+
+    # Create directory used by display clients
+    copy /system/etc/display/calib.cfg /data/misc/display/calib.cfg
+    chown system graphics /data/misc/display/calib.cfg
+
+    # NFC local data and nfcee xml storage
+    mkdir /data/nfc 0770 nfc nfc
+    mkdir /data/nfc/param 0770 nfc nfc
+    chmod 0700 /data/nfc
+    chmod 0700 /data/nfc/param
+    chown nfc nfc /data/nfc
+    chown nfc nfc /data/nfc/param
+    restorecon_recursive /data/nfc
+
+    chown root root /system/etc/init.atmel_ts.sh
+    chmod 777 /system/etc/init.atmel_ts.sh
 
     # Tap To Wake
-    chown root system /proc/gesture_open
-    chmod 0660 /proc/gesture_open
+    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
+    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
+
+    # Disable Keys
+    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
+    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
 
 service config-zram /system/bin/sh /system/etc/init.qcom.zram.sh
    class late_start
